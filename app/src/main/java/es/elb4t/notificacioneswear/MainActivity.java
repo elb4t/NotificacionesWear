@@ -22,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
         wearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intencionLlamar = new Intent(Intent.ACTION_DIAL,
+                        Uri.parse("tel:555123456"));
+                PendingIntent intencionPendientetLlamar =
+                        PendingIntent.getActivity(MainActivity.this, 0, intencionLlamar,0);
                 // Creamos intención pendiente
                 Intent intencionMapa = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=universidad+politecnica+valencia"));
                 PendingIntent intencionPendienteMapa =
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
                         .setContentTitle("Título")
                         .setContentText(Html.fromHtml("<b>Notificación</b> <u>Android<i>Wear</i></u>"))
                         .setContentIntent(intencionPendienteMapa)
+                        .addAction(android.R.drawable.ic_menu_call, "llamar", intencionPendientetLlamar)
                         .build();
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(MainActivity.this);
