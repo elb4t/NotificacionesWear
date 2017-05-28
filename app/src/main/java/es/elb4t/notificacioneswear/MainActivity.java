@@ -46,16 +46,22 @@ public class MainActivity extends AppCompatActivity {
                 acciones.add(accion);
                 acciones.add(new NotificationCompat.Action(R.mipmap.ic_action_locate,
                         "Ver mapa", intencionPendienteMapa));
+                // Creamos un WearableExtender para añadir funcionalidades para wearable
+                NotificationCompat.WearableExtender wearableExtender =
+                        new NotificationCompat.WearableExtender()
+                                .setHintHideIcon(true)
+                                .setBackground(BitmapFactory.decodeResource(
+                                        getResources(), R.drawable.escudo_upv))
+                                .addActions(acciones);
                 Notification notificacion = new NotificationCompat.Builder(
                         MainActivity.this)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.escudo_upv))
+                        .extend(wearableExtender)
                         .setContentTitle("Título")
                         .setContentText(Html.fromHtml("<b>Notificación</b> <u>Android<i>Wear</i></u>"))
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(s+s+s+s))
                         .setContentIntent(intencionPendienteMapa)
                         .addAction(R.mipmap.ic_action_call,  "llamar", intencionPendientetLlamar)
-                        .extend(new NotificationCompat.WearableExtender().addActions(acciones))
                         .build();
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(MainActivity.this);
