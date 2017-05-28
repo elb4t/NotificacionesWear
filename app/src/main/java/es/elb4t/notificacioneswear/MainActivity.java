@@ -12,6 +12,9 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -31,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
                 PendingIntent intencionPendienteMapa =
                         PendingIntent.getActivity(MainActivity.this, 0, intencionMapa, 0);
                 int notificacionId = 001;
+                // Creamos la acción
+                NotificationCompat.Action accion =
+                        new NotificationCompat.Action.Builder(R.mipmap.ic_action_call,
+                                "llamar Wear", intencionPendientetLlamar).build();
+                //Creamos una lista de acciones
+                List<NotificationCompat.Action> acciones =
+                        new ArrayList<NotificationCompat.Action>();
+                acciones.add(accion);
+                acciones.add(new NotificationCompat.Action(R.mipmap.ic_action_locate,
+                        "Ver mapa", intencionPendienteMapa));
                 Notification notificacion = new NotificationCompat.Builder(
                         MainActivity.this)
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -38,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                         .setContentText(Html.fromHtml("<b>Notificación</b> <u>Android<i>Wear</i></u>"))
                         .setContentIntent(intencionPendienteMapa)
                         .addAction(R.mipmap.ic_action_call,  "llamar", intencionPendientetLlamar)
+                        .extend(new NotificationCompat.WearableExtender().addAction((android.support.v4.app.NotificationCompat.Action) acciones))
                         .build();
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(MainActivity.this);
