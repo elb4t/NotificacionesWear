@@ -22,15 +22,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button wearButton = (Button)findViewById(R.id.boton1);
+        Button wearButton = (Button) findViewById(R.id.boton1);
         wearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String s="Texto largo con descripción detallada de la notificación. ";
+                String s = "Texto largo con descripción detallada de la notificación. ";
                 Intent intencionLlamar = new Intent(Intent.ACTION_DIAL,
                         Uri.parse("tel:555123456"));
                 PendingIntent intencionPendientetLlamar =
-                        PendingIntent.getActivity(MainActivity.this, 0, intencionLlamar,0);
+                        PendingIntent.getActivity(MainActivity.this, 0, intencionLlamar, 0);
                 // Creamos intención pendiente
                 Intent intencionMapa = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=universidad+politecnica+valencia"));
                 PendingIntent intencionPendienteMapa =
@@ -56,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this)
                         .setStyle(segundaPg)
                         .build();
+                Notification notificacionPg3 = new NotificationCompat.Builder(
+                        MainActivity.this)
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .setBigContentTitle("Página 3")
+                                .bigText("Más texto todavia."))
+                        .build();
 
                 // Creamos un WearableExtender para añadir funcionalidades para wearable
                 NotificationCompat.WearableExtender wearableExtender =
@@ -64,16 +70,17 @@ public class MainActivity extends AppCompatActivity {
                                 .setBackground(BitmapFactory.decodeResource(
                                         getResources(), R.drawable.escudo_upv))
                                 .addActions(acciones)
-                                .addPage(notificacionPg2);
+                                .addPage(notificacionPg2)
+                                .addPage(notificacionPg3);
                 Notification notificacion = new NotificationCompat.Builder(
                         MainActivity.this)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .extend(wearableExtender)
                         .setContentTitle("Título")
                         .setContentText(Html.fromHtml("<b>Notificación</b> <u>Android<i>Wear</i></u>"))
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(s+s+s+s))
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(s + s + s + s))
                         .setContentIntent(intencionPendienteMapa)
-                        .addAction(R.mipmap.ic_action_call,  "llamar", intencionPendientetLlamar)
+                        .addAction(R.mipmap.ic_action_call, "llamar", intencionPendientetLlamar)
                         .build();
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(MainActivity.this);
