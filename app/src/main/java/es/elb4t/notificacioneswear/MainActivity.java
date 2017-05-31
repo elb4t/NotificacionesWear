@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Miramos si hemos recibido una respuesta por voz
-        Bundle respuesta = RemoteInput.getResultsFromIntent(getIntent());
+        final Bundle respuesta = RemoteInput.getResultsFromIntent(getIntent());
         if (respuesta != null) {
             CharSequence texto = respuesta.getCharSequence(EXTRA_RESPUESTA_POR_VOZ);
             ((TextView) findViewById(R.id.textViewRespuesta)).setText(texto);
@@ -133,9 +133,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intencion = new Intent(MainActivity.this, MainActivity.class);
                 PendingIntent intencionPendiente = PendingIntent.getActivity(MainActivity.this, 0, intencion, PendingIntent.FLAG_UPDATE_CURRENT);
 // Creamos la entrada remota para añadirla a la acción
-                
+                String[] opcRespuesta = getResources().getStringArray(R.array.opciones_respuesta);
                 RemoteInput entradaRemota = new RemoteInput.Builder(EXTRA_RESPUESTA_POR_VOZ)
                         .setLabel("respuesta por voz")
+                        .setChoices(opcRespuesta)
                         .build();
 // Creamos la acción
                 NotificationCompat.Action accion = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_set_as, "responder", intencionPendiente)
