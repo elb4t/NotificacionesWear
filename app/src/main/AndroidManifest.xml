@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".WearReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="es.elb4t.padelwear.ACTION_DEMAND"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
